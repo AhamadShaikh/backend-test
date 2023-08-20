@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const userRouter = require("./routes/userRoutes");
 const restaurantsRouter = require("./routes/restaurantsRoute")
-const cors = require("cors")
+// const cors = require("cors")
 
 const app = express();
 
@@ -22,9 +22,9 @@ const connection = async () => {
 app.use("/users", userRouter);
 app.use("/restaurants", restaurantsRouter);
 
-app.use(cors({
-    origin: 'http://localhost:3000'
-}));
+// app.use(cors({
+//     origin: 'http://localhost:3000'
+// }));
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, async () => {
