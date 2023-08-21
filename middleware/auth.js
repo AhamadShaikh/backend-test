@@ -1,21 +1,26 @@
 const jwt = require("jsonwebtoken")
 
-const middleware = async (req, res, next) => {
+const middeleware = async (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1]
     try {
-        const token = req.headers.authorization?.split(" ")[1]
+
         if (!token) {
-            return res.status(400).json({ error: 'Token not provided' });
+            return res.status(400).json({ msg: "Token not provided" })
         }
-        const decoded = jwt.verify(token, "ironman")
+
+        const decoded = jwt.verify(token, "thor")
+
         if (!decoded) {
-            res.send("invalid credentials")
+            res.status(400).json({ msg: "Invalid Credentials" })
         }
+
         req.userId = decoded.userId
-        req.name = decoded.name
+
         next()
+
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ msg: "internal server error" })
     }
 }
 
-module.exports = middleware
+module.exports=middeleware

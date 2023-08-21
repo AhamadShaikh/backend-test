@@ -1,33 +1,32 @@
+
 const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const userRouter = require("./routes/userRoutes");
-const restaurantsRouter = require("./routes/restaurantsRoute")
-// const cors = require("cors")
+const { default: mongoose } = require("mongoose");
+require("dotenv").config()
+const userRouter = require("./routes/userRoute")
+const appointmentRouter = require("./routes/appointmentRoute")
+const cors = require("cors")
 
-const app = express();
-
-app.use(express.json());
+const app = express()
+app.use(express.json())
 
 const connection = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL);
-        console.log("Connected to MongoDB");
+        await mongoose.connect(process.env.MONGO_URL)
     } catch (error) {
-        console.error("MongoDB connection error:", error);
+        console.log(error);
     }
-};
+}
 
+app.use("/users", userRouter)
+app.use("/", appointmentRouter)
 
-app.use("/users", userRouter);
-app.use("/restaurants", restaurantsRouter);
+app.use(cors({
+    origin: 'http://localhost:3000'
+}))
 
-// app.use(cors({
-//     origin: 'http://localhost:3000'
-// }));
+const PORT = process.env.PORT || 7000
 
-const PORT = process.env.PORT || 7000;
-app.listen(PORT, async () => {
-    await connection();
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => {
+    connection()
+    console.log("port on 7000")
+})
