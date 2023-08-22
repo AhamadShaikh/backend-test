@@ -17,12 +17,16 @@ const connection = async () => {
     }
 }
 
-app.use("/users", userRouter)
-app.use("/", appointmentRouter)
-
 app.use(cors({
     origin: 'http://localhost:3000'
 }))
+
+
+
+///////
+app.use("/users", userRouter)
+app.use("/", appointmentRouter)
+
 
 const PORT = process.env.PORT || 7000
 
